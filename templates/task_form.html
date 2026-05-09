@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ 'Edit Task' if task else 'Create Task' }} - Task Manager{% endblock %}
+
+{% block content %}
+<div class="card mx-auto shadow-sm" style="max-width: 680px;">
+    <div class="card-body">
+        <h2 class="mb-4">{{ 'Edit Task' if task else 'Create Task' }}</h2>
+        <form method="POST" action="{{ form_action }}">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ task.title if task else '' }}" required />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="4">{{ task.description if task else '' }}</textarea>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="due_date" class="form-label">Due Date</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date" value="{{ task.due_date if task else '' }}" />
+                </div>
+                <div class="col-md-6">
+                    <label for="priority" class="form-label">Priority</label>
+                    <select class="form-select" id="priority" name="priority">
+                        {% for option in ['Low', 'Medium', 'High'] %}
+                            <option value="{{ option }}" {% if task and task.priority == option %}selected{% elif not task and option == 'Medium' %}selected{% endif %}>{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% if task %}
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="Pending" {% if task.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+            {% endif %}
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">{{ 'Update Task' if task else 'Create Task' }}</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('tasks.dashboard') }}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
