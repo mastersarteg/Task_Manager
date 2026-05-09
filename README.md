@@ -82,8 +82,3 @@ task-manager/
 │       └── main.js
 └── README.md
 ```
-
-## Notes
-
-- Replace `SECRET_KEY` in `app.py` with a secure value before deploying.
-- This project is designed for learning and demonstration.
